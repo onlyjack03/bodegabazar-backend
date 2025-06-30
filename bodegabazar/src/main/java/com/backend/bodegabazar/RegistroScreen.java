@@ -69,7 +69,7 @@ public class RegistroScreen extends JFrame {
 
         panel.add(iniciarBtn);
 
-        // Acción del botón
+      
         registrarBtn.addActionListener(e -> {
             String nombre = nombreField.getText();
             String correo = correoField.getText();
@@ -80,8 +80,8 @@ public class RegistroScreen extends JFrame {
 
             if (registrado) {
                 JOptionPane.showMessageDialog(this, "¡Usuario registrado correctamente!");
-                dispose(); // cerrar esta ventana
-                new LoginScreen(); // volver a login
+                dispose(); 
+                new LoginScreen();
             } else {
                 JOptionPane.showMessageDialog(this, "Error al registrar. Intenta de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             }

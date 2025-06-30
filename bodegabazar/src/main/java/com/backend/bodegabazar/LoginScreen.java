@@ -6,19 +6,18 @@ import java.awt.*;
 public class LoginScreen extends JFrame {
 
     public LoginScreen() {
-        setSize(400, 700);
-        setResizable(false); // Para evitar que lo agranden como ventana de escritorio
+        //setSize(400, 700);
+        //setResizable(false); 
 
-
-        // Título de la ventana
+        
         setTitle("Bodega Bazar Gabby");
 
-        // Contenedor principal
+       
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(230, 210, 255)); // color lila claro
 
-        // Título
+        
         JLabel title = new JLabel("Bodega Bazar Gabby", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         title.setBorder(BorderFactory.createEmptyBorder(30, 0, 10, 0));
@@ -28,13 +27,13 @@ public class LoginScreen extends JFrame {
         subtitle.setForeground(Color.DARK_GRAY);
         subtitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
 
-        // Panel del formulario
+     
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.setBackground(Color.WHITE);
         formPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
 
-        // Campos
+        
         JLabel userLabel = new JLabel("Usuario");
         JTextField userField = new JTextField();
         userField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
@@ -48,15 +47,17 @@ public class LoginScreen extends JFrame {
         String usuario = userField.getText();
         String clave = new String(passField.getPassword());
 
-        if (UsuarioDAO.autenticar(usuario, clave)) {
-        JOptionPane.showMessageDialog(this, "Bienvenido " + usuario);
-        // Aquí podrías abrir el dashboard
+        String userId = UsuarioDAO.obtenerIdPorCredenciales(usuario, clave);
+        if (userId != null) {
+        new DashboardScreen(userId); 
+        dispose();
         } else {
         JOptionPane.showMessageDialog(this, "Credenciales inválidas", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }   
+
         });
 
-        loginButton.setBackground(new Color(143, 102, 255)); // violeta
+        loginButton.setBackground(new Color(143, 102, 255)); 
         loginButton.setForeground(Color.WHITE);
         loginButton.setFocusPainted(false);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -73,7 +74,7 @@ public class LoginScreen extends JFrame {
         registrarBtn.setContentAreaFilled(false);
         registrarBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Acción: abre la pantalla de registro
+     
         registrarBtn.addActionListener(e -> {
         new RegistroScreen();
             dispose();
@@ -82,7 +83,6 @@ public class LoginScreen extends JFrame {
         registerPanel.add(registrarBtn);
 
 
-        // Añadir componentes al formPanel
         formPanel.add(userLabel);
         formPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         formPanel.add(userField);
@@ -98,21 +98,20 @@ public class LoginScreen extends JFrame {
         formPanel.add(registerPanel);
 
 
-        // Panel contenedor general
+    
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
         container.setOpaque(false);
         container.setBorder(BorderFactory.createEmptyBorder(0, 50, 50, 50));
         container.add(formPanel, BorderLayout.CENTER);
 
-        // Agregar todos al panel principal
         mainPanel.add(title, BorderLayout.NORTH);
         mainPanel.add(subtitle, BorderLayout.CENTER);
         mainPanel.add(container, BorderLayout.SOUTH);
 
         add(mainPanel);
         setSize(400, 600);
-        setLocationRelativeTo(null); // centrar
+        setLocationRelativeTo(null); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

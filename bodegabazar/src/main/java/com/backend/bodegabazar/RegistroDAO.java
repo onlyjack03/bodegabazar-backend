@@ -14,8 +14,8 @@ public class RegistroDAO {
         try (Connection con = ConexionBD.conectar()) {
             PreparedStatement ps = con.prepareStatement(sql);
 
-            String id = UUID.randomUUID().toString(); // Generar ID único
-            String passwordHash = BCrypt.hashpw(clave, BCrypt.gensalt()); // Cifrar la clave
+            String id = UUID.randomUUID().toString(); 
+            String passwordHash = BCrypt.hashpw(clave, BCrypt.gensalt()); 
 
             ps.setString(1, id);
             ps.setString(2, nombre);

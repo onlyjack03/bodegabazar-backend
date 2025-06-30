@@ -18,7 +18,7 @@ public class LoginDAO {
 
             if (rs.next()) {
                 String hash = rs.getString("password_hash");
-                return BCrypt.checkpw(clave, hash); // Compara la clave ingresada con la cifrada
+                return BCrypt.checkpw(clave, hash); 
             }
         } catch (Exception e) {
             e.printStackTrace();
