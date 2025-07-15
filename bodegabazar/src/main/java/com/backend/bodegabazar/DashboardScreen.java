@@ -30,19 +30,19 @@ public class DashboardScreen extends JFrame {
 
         
         JButton totalBtn = crearBoton("Total Productos", "📦", new Color(230, 230, 255));
-        totalBtn.addActionListener(e -> new InventarioScreen("todos"));
+        totalBtn.addActionListener(e -> new InventarioScreen("todos", userId));
 
         
         JButton stockBtn = crearBoton("Bajo Stock", "⚠️", new Color(255, 245, 200));
-        stockBtn.addActionListener(e -> new InventarioScreen("bajo"));
+        stockBtn.addActionListener(e -> new InventarioScreen("bajo", userId));
 
         
         JButton vencerBtn = crearBoton("Próximos a Vencer", "⏰", new Color(210, 255, 240));
-        vencerBtn.addActionListener(e -> new InventarioScreen("vencer"));
+        vencerBtn.addActionListener(e -> new InventarioScreen("vencer", userId));
 
         
         JButton vencidosBtn = crearBoton("Vencidos", "🗑️", new Color(255, 220, 220));
-        vencidosBtn.addActionListener(e -> new InventarioScreen("vencidos"));
+        vencidosBtn.addActionListener(e -> new InventarioScreen("vencidos", userId));
 
         
         JButton mermaBtn = crearBoton("% Merma", "📉", new Color(230, 230, 255));
@@ -64,10 +64,21 @@ public class DashboardScreen extends JFrame {
         navPanel.setBackground(Color.DARK_GRAY);
 
         JButton btnDashboard = crearBotonNav("🏠", "Dashboard", () -> {});
-        JButton btnInventario = crearBotonNav("📋", "Inventario", () -> new InventarioScreen("todos"));
+        btnDashboard.setEnabled(false);
+        JButton btnInventario = crearBotonNav("📦", "Inventario", () -> {
+        setVisible(false);
+        new InventarioScreen("todos", userId); 
+        });
+
         JButton btnProductos = crearBotonNav("➕", "Productos", () -> new FormularioProductoScreen("agregar", null));
-        JButton btnEtiquetas = crearBotonNav("🏷️", "Etiquetas", () -> new GestionEtiquetasScreen());
-        JButton btnPerfil = crearBotonNav("👤", "Perfil", () -> new PerfilUsuarioScreen(userId));
+        JButton btnEtiquetas = crearBotonNav("🏷️", "Etiquetas", () -> {
+        setVisible(false); 
+        new GestionEtiquetasScreen(this); 
+        });
+        JButton btnPerfil = crearBotonNav("👤", "Perfil", () -> {
+        setVisible(false);
+        new PerfilUsuarioScreen(userId); 
+        });
 
         navPanel.add(btnDashboard);
         navPanel.add(btnInventario);
@@ -102,4 +113,5 @@ public class DashboardScreen extends JFrame {
         });
         return boton;
     }
+    
 }

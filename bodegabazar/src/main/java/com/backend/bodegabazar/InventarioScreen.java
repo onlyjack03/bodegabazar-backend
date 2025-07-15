@@ -6,7 +6,11 @@ import java.util.List;
 
 public class InventarioScreen extends JFrame {
 
-    public InventarioScreen(String filtro) {
+    private String userId;
+
+    public InventarioScreen(String filtro, String userId) {
+        this.userId = userId;
+
         setTitle("Inventario");
         setSize(400, 700);
         setLocationRelativeTo(null);
@@ -15,23 +19,39 @@ public class InventarioScreen extends JFrame {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
+        // Botón Inicio
+        JButton btnInicio = new JButton("Inicio");
+        btnInicio.setBackground(new Color(200, 200, 200));
+        btnInicio.setFocusPainted(false);
+        btnInicio.addActionListener(e -> {
+            new DashboardScreen(userId);
+            dispose();
+        });
+
+        JPanel panelSuperior = new JPanel(new BorderLayout());
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         JLabel title = new JLabel("Inventario", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 22));
-        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 
-        
+        panelSuperior.add(btnInicio, BorderLayout.WEST);
+        panelSuperior.add(title, BorderLayout.CENTER);
+
+        mainPanel.add(panelSuperior, BorderLayout.NORTH);
+
+        // Filtros
         JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         String[] filtros = {"Todos", "Activo", "Próximo a vencer", "Vencidos"};
         for (String f : filtros) {
             JButton btnFiltro = new JButton(f);
             btnFiltro.addActionListener(e -> {
                 dispose();
-                new InventarioScreen(f.toLowerCase());
+                new InventarioScreen(f.toLowerCase(), userId);
             });
             filterPanel.add(btnFiltro);
         }
 
-       
+        // Lista de productos
         JPanel listaProductosPanel = new JPanel();
         listaProductosPanel.setLayout(new BoxLayout(listaProductosPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(listaProductosPanel);
@@ -43,16 +63,16 @@ public class InventarioScreen extends JFrame {
             listaProductosPanel.add(Box.createVerticalStrut(10));
         }
 
-        
+        // Botón agregar producto
         JButton botonAgregar = new JButton("+");
         botonAgregar.setFont(new Font("Arial", Font.BOLD, 24));
         botonAgregar.setForeground(Color.WHITE);
         botonAgregar.setBackground(new Color(143, 102, 255));
-        botonAgregar.setBounds(310, 580, 60, 60);
         botonAgregar.setFocusPainted(false);
         botonAgregar.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         botonAgregar.addActionListener(e -> new FormularioProductoScreen("agregar", null));
 
+        // Layout capas
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(400, 700));
         scrollPane.setBounds(0, 80, 400, 500);
@@ -60,7 +80,6 @@ public class InventarioScreen extends JFrame {
         layeredPane.add(scrollPane, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(botonAgregar, JLayeredPane.PALETTE_LAYER);
 
-        mainPanel.add(title, BorderLayout.NORTH);
         mainPanel.add(filterPanel, BorderLayout.CENTER);
         mainPanel.add(layeredPane, BorderLayout.SOUTH);
 
@@ -102,7 +121,6 @@ public class InventarioScreen extends JFrame {
                 new FormularioProductoScreen("editar", producto);
                 dispose();
             }
-            
         });
 
         panel.add(infoPanel, BorderLayout.CENTER);

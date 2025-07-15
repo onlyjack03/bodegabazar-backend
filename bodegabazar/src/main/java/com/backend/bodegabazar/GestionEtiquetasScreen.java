@@ -11,13 +11,31 @@ public class GestionEtiquetasScreen extends JFrame {
     private JList<String> listaEtiquetas;
     private JTextField campoEtiqueta;
     private JButton botonAgregar, botonEditar, botonEliminar;
+    private JFrame ventanaAnterior;
 
-    public GestionEtiquetasScreen() {
+    public GestionEtiquetasScreen(JFrame ventanaAnterior) {
+        this.ventanaAnterior = ventanaAnterior;
+
         setTitle("Gestión de Etiquetas");
         setSize(400, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        // Botón Inicio para volver a la ventana anterior
+        JButton btnInicio = new JButton("Inicio");
+        btnInicio.setBackground(new Color(200, 200, 200));
+        btnInicio.setFocusPainted(false);
+        btnInicio.addActionListener(e -> {
+            if (ventanaAnterior != null) {
+                ventanaAnterior.setVisible(true);
+            }
+            dispose(); // cerrar esta ventana
+        });
+
+        JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelSuperior.add(btnInicio);
+        add(panelSuperior, BorderLayout.NORTH);
 
         modeloLista = new DefaultListModel<>();
         listaEtiquetas = new JList<>(modeloLista);

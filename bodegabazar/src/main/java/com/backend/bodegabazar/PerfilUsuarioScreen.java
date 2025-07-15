@@ -18,6 +18,19 @@ public class PerfilUsuarioScreen extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // Botón Inicio
+        JButton btnInicio = new JButton("Inicio");
+        btnInicio.setBackground(new Color(200, 200, 200));
+        btnInicio.setFocusPainted(false);
+        btnInicio.addActionListener(e -> {
+            new DashboardScreen(usuarioId);
+            dispose();
+        });
+
+        JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelSuperior.add(btnInicio);
+        add(panelSuperior, BorderLayout.NORTH);
+
         lblNombre = new JLabel("Nombre: ");
         lblCorreo = new JLabel("Correo: ");
         btnCambiarContrasena = new JButton("Cambiar Contraseña");

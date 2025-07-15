@@ -21,7 +21,9 @@ public class FormularioProductoScreen extends JFrame {
 
     private Producto productoActual;
     private boolean modoEditar;
+    private int userId;
 
+    
     public FormularioProductoScreen(String modo, Producto producto) {
         this.modoEditar = modo.equalsIgnoreCase("editar");
         this.productoActual = producto;
@@ -109,6 +111,23 @@ public class FormularioProductoScreen extends JFrame {
         panel.add(btnAgregar);
 
         add(new JScrollPane(panel));
+
+        JButton btnRegresar = new JButton("Regresar");
+btnRegresar.setBackground(new Color(200, 200, 200));
+btnRegresar.setFocusPainted(false);
+btnRegresar.addActionListener(e -> {
+    String userId = productoActual != null ? productoActual.getUserId() : "test-user-id";
+    DashboardScreen dashboard = new DashboardScreen(userId);
+    dashboard.setVisible(true);  // Mostrar la ventana
+    dispose(); // Cierra la pantalla actual
+});
+
+
+panel.add(Box.createVerticalStrut(10));
+panel.add(btnRegresar);
+
+
+
         setVisible(true);
 
         if (modoEditar && producto != null) {
